@@ -1,0 +1,22 @@
+{
+	"name": "language-roll20-macro",
+	"version": "1.0.0",
+	"description": "Grammar for macros on Roll20",
+	"keywords": [
+		"language",
+		"grammar",
+		"syntax",
+		"roll20",
+		"macro"
+	],
+	"repository": "https://github.com/wizard04wsu/language-roll20-macro",
+	"bugs": "https://github.com/wizard04wsu/language-roll20-macro/issues",
+	"license": "MIT",
+	"author": {
+		"name": "Andy Harrison",
+		"url": "https://github.com/wizard04wsu"
+	},
+	"engines": {
+		"atom": ">=1.0.0"
+	}
+}
