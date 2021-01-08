@@ -1,6 +1,6 @@
 {
 	"name": "language-roll20-macro",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Grammar for macros on Roll20",
 	"keywords": [
 		"language",
