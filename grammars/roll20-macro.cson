@@ -57,7 +57,7 @@ repository:
 		]
 	}
 	htmlOrMacro: {
-		match: '&#\\d+;|&?(#[^\\s#]+)(?:\\s|$)'
+		match: '&#\\d+;|(#[^\\s#]+)(?=\\s|$)'
 		captures:
 			1: patterns: [{ include: '#macro' }]
 	}
