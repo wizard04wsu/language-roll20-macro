@@ -76,8 +76,15 @@ repository:
 		name: 'meta.query.roll20-macro'
 		patterns: [
 			{
-				name: 'variable.other.query'
-				match: '\\?\\{([^|}]*)\\|((?:[^@|}]+|@(?!\\{)|@\\{[^}]+\\})+)\\}'
+				name: 'variable.other.query.roll20-macro'
+				match: '(?x)
+						\\?\\{
+							(?>([^|}]*))
+							(?>
+								\\|
+								((?:[^@|}]+|@(?!\\{)|@\\{[^}]+\\})*)
+							)
+						\\}'
 				captures:
 					1: name: 'string.unquoted.prompt.roll20-macro'
 					2:
@@ -89,32 +96,58 @@ repository:
 						]
 			}
 			{
-				name: 'variable.other.query'
-				match: '\\?\\{([^|}]*)((?:\\|(?:[^@,|}]+|@(?!\\{)|@\\{[^}]+\\})+(?:,(?:[^@,|}]+|@(?!\\{)|@\\{[^}]+\\})+)?)+)\\}'
+				name: 'variable.other.query.roll20-macro'
+				match: '(?x)
+						\\?\\{
+						(?>([^|}]*))
+						(?>(
+							(?:
+								\\|
+								(?:[^@,|}]+|@(?!\\{)|@\\{[^}]+\\})*
+								(?:
+									,
+									(?:[^@|}]+|@(?!\\{)|@\\{[^}]+\\})*
+								)?
+							)+
+						))
+						\\}'
 				captures:
 					1: name: 'string.unquoted.prompt.roll20-macro'
 					2:
 						patterns: [
 							{
-								name: 'entity.other.option.roll20-macro'
-								match: '([^@,|}]+|@(?!\\{)|@\\{[^}]+\\})+(?:,((?:[^@,|}]+|@(?!\\{)|@\\{[^}]+\\})+))?'
+								match: '(?x)
+										(\\|)
+										(
+											((?:[^@,|]+|@(?!\\{)|@\\{[^}]+\\})*)
+											(?:
+												(,)
+												((?:[^@|]+|@(?!\\{)|@\\{[^}]+\\})*)
+											)?
+										)'
 								captures:
 									1:
+										name: 'punctuation.definition.query-option.delimiter.roll20-macro'
+									2:
+										name: 'entity.other.option.roll20-macro'
+									3:
 										name: 'string.unquoted.label.roll20-macro'
 										patterns: [{ include: '#attribute' }]
-									2:
+									4:
+										name: 'punctuation.definition.query-option.comma.roll20-macro'
+									5:
 										name: 'string.unquoted.value.roll20-macro'
 										patterns: [
 											{ include: '#attribute' }
 											{ include: '#htmlOrMacro' }
 											{ include: '#button' }
+											{
+												name: 'invalid.roll20-macro'
+												match: ','
+											}
 										]
 							}
 						]
-			}
-			{
-				name: 'variable.other'
-				match: '\\{(?!\\{)([^|}]+)\\}'
 			}
 		]
 	}
