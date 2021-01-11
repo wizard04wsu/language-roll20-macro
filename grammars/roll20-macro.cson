@@ -17,26 +17,37 @@ repository:
 		patterns: [
 			{
 				name: 'string.interpolated.attribute.token.roll20-macro'
-				match: '@\\{(selected|target)\\|([^|}]+)(?:\\|(max))?\\}'
+				match: '(@\\{)(?>(selected|target))(\\|)(?>([^|}]+))(?:(\\|)(max))?(\\})'
 				captures:
-					1: name: 'keyword.other.token.roll20-macro'
-					2: name: 'entity.name.attribute.roll20-macro'
-					3: name: 'keyword.other.attribute-max.roll20-macro'
+					1: name: 'punctuation.definition.attribute.delimiter.roll20-macro'
+					2: name: 'keyword.other.token.roll20-macro'
+					3: name: 'punctuation.definition.attribute.pipe.roll20-macro'
+					4: name: 'entity.name.attribute.roll20-macro'
+					5: name: 'punctuation.definition.attribute.pipe.roll20-macro'
+					6: name: 'keyword.other.attribute-max.roll20-macro'
+					7: name: 'punctuation.definition.attribute.delimiter.roll20-macro'
 			}
 			{
 				name: 'string.interpolated.attribute.character.roll20-macro'
-				match: '@\\{([^|}]+)\\|(?!max\\})([^|}]+)(?:\\|(max))?\\}'
+				match: '(@\\{)(?>([^|}]+))(\\|)(?!max\\})(?>([^|}]+))(?:(\\|)(max))?(\\})'
 				captures:
-					1: name: 'entity.name.character.roll20-macro'
-					2: name: 'entity.name.attribute.roll20-macro'
-					3: name: 'keyword.other.attribute-max.roll20-macro'
+					1: name: 'punctuation.definition.attribute.delimiter.roll20-macro'
+					2: name: 'entity.name.character.roll20-macro'
+					3: name: 'punctuation.definition.attribute.pipe.roll20-macro'
+					4: name: 'entity.name.attribute.roll20-macro'
+					5: name: 'punctuation.definition.attribute.pipe.roll20-macro'
+					6: name: 'keyword.other.attribute-max.roll20-macro'
+					7: name: 'punctuation.definition.attribute.delimiter.roll20-macro'
 			}
 			{
 				name: 'string.interpolated.attribute.roll20-macro'
-				match: '@\\{([^|}]+)(?:\\|(max))?\\}'
+				match: '(@\\{)(?>([^|}]+))(?:(\\|)(max))?(\\})'
 				captures:
-					1: name: 'entity.name.attribute.roll20-macro'
-					2: name: 'keyword.other.attribute-max.roll20-macro'
+					1: name: 'punctuation.definition.attribute.delimiter.roll20-macro'
+					2: name: 'entity.name.attribute.roll20-macro'
+					3: name: 'punctuation.definition.attribute.pipe.roll20-macro'
+					4: name: 'keyword.other.attribute-max.roll20-macro'
+					5: name: 'punctuation.definition.attribute.delimiter.roll20-macro'
 			}
 		]
 	}
@@ -45,30 +56,35 @@ repository:
 		patterns: [
 			{
 				name: 'string.interpolated.ability.roll20-macro'
-				match: '%\\{((?:[^@|}]+|@(?!\\{)|@\\{[^}]+\\})+)\\|((?:[^@|}]+|@(?!\\{)|@\\{[^}]+\\})+)\\}'
+				match: '(%\\{)(?>((?:[^@|}]+|@(?!\\{)|@\\{[^}]+\\})+))(\\|)(?>((?:[^@|}]+|@(?!\\{)|@\\{[^}]+\\})+))(\\})'
 				captures:
-					1:
+					1: name: 'punctuation.definition.ability.delimiter.roll20-macro'
+					2:
 						name: 'entity.name.character.roll20-macro'
 						patterns: [{ include: '#attribute' }]	#notably: @{character_name}
-					2:
+					3: name: 'punctuation.definition.ability.pipe.roll20-macro'
+					4:
 						name: 'entity.name.ability.roll20-macro'
 						patterns: [{ include: '#attribute' }]
+					5: name: 'punctuation.definition.ability.delimiter.roll20-macro'
 			}
 		]
 	}
 	htmlOrMacro: {
-		match: '&#\\d+;|(#[^\\s#]+)(?=\\s|$)'
+		match: '(&#\\d+;)|(?>(#[^\\s#]+))(?=\\s|$)'
 		captures:
-			1: patterns: [{ include: '#macro' }]
+			1: name: 'constant.character.roll20-macro'
+			2: patterns: [{ include: '#macro' }]
 	}
 	macro: {
 		name: 'meta.macro.roll20-macro'
 		patterns: [
 			{
 				name: 'string.interpolated.macro.roll20-macro'
-				match: '#([^\\s#]+)(?:\\s|$)'
+				match: '(#)(?>([^\\s#]+))(?:\\s|$)'
 				captures:
-					1: name: 'entity.name.macro.roll20-macro'
+					1: name: 'punctuation.definition.macro.delimiter.roll20-macro'
+					2: name: 'entity.name.macro.roll20-macro'
 			}
 		]
 	}
@@ -78,27 +94,30 @@ repository:
 			{
 				name: 'variable.other.query.roll20-macro'
 				match: '(?x)
-						\\?\\{
+						(\\?\\{)
 							(?>([^|}]*))
 							(?>
-								\\|
+								(\\|)
 								((?:[^@|}]+|@(?!\\{)|@\\{[^}]+\\})*)
 							)
-						\\}'
+						(\\})'
 				captures:
-					1: name: 'string.unquoted.prompt.roll20-macro'
-					2:
+					1: name: 'punctuation.definition.query.delimiter.roll20-macro'
+					2: name: 'string.unquoted.prompt.roll20-macro'
+					3: name: 'punctuation.definition.query-default.delimiter.roll20-macro'
+					4:
 						name: 'string.unquoted.default.roll20-macro'
 						patterns: [
 							{ include: '#attribute' }
 							{ include: '#htmlOrMacro' }
 							{ include: '#button' }
 						]
+					5: name: 'punctuation.definition.query.delimiter.roll20-macro'
 			}
 			{
 				name: 'variable.other.query.roll20-macro'
 				match: '(?x)
-						\\?\\{
+						(\\?\\{)
 						(?>([^|}]*))
 						(?>(
 							(?:
@@ -110,10 +129,11 @@ repository:
 								)?
 							)+
 						))
-						\\}'
+						(\\})'
 				captures:
-					1: name: 'string.unquoted.prompt.roll20-macro'
-					2:
+					1: name: 'punctuation.definition.query.delimiter.roll20-macro'
+					2: name: 'string.unquoted.prompt.roll20-macro'
+					3:
 						patterns: [
 							{
 								match: '(?x)
@@ -148,13 +168,18 @@ repository:
 										]
 							}
 						]
+					4: name: 'punctuation.definition.query.delimiter.roll20-macro'
 			}
 		]
 	}
 	inlineRoll: {
 		name: 'meta.inline-roll.roll20-macro'
-		begin: '\\[\\['
-		end: '\\]\\]'
+		begin: '(\\[\\[)'
+		end: '(\\]\\])'
+		beginCaptures:
+			1: name: 'punctuation.definition.inline-roll.delimiter.roll20-macro'
+		endCaptures:
+			1: name: 'punctuation.definition.inline-roll.delimiter.roll20-macro'
 		patterns: [{ include: '#inlineMath' }]
 	}
 	inlineMath: {
@@ -168,7 +193,7 @@ repository:
 			{ include: '#groupRoll' }
 			{
 				name: 'string.quoted.other.inline-label.roll20-macro'
-				match: '\\[(?!\\[)([^\\]]*)\\]'
+				match: '\\[(?!\\[)(?>([^\\]]*))\\]'
 				captures:
 					1:
 						patterns: [
@@ -187,22 +212,61 @@ repository:
 				match: '\\*\\*|[+*/%-]'
 			}
 			{
-				begin: '(?:abs|ceil|floor|round)?\\('
+				begin: '(?>abs|ceil|floor|round)?\\('
 				end: '\\)'
 				patterns: [{ include: '#inlineMath' }]
 			}
 		]
 	}
 	dice: {
-		name: 'constant.other.dice.roll20-macro'
-		match: '(?i)\\d*d(?:\\d+|f)(?:ro?[<=>]?\\d+|![!p]?(?:[<=>]?\\d+)?|[kd][hl]?\\d+|[<=>]\\d+(?:f[<=>]?\\d+)?|c[sf][<=>]?\\d+|mt?\\d*(?:[<=>]\\d+)?|s[ad])*'
+		name: 'meta.dice.roll20-macro'
+		match: '(?xi)
+				(\\d*)
+				(d)
+				((\\d+)|f)
+				((?:
+					ro?[<=>]?\\d+
+					|![!p]?(?:[<=>]?\\d+)?
+					|[kd][hl]?\\d+
+					|[<=>]\\d+(?:f[<=>]?\\d+)?
+					|c[sf][<=>]?\\d+
+					|mt?\\d*(?:[<=>]\\d+)?
+					|s[ad]
+				)*)'
+				#modifiers include:
+				#	reroll / reroll once
+				#	explode / compound / penetrate
+				#	keep / drop
+				#	count successes / count successes - failures
+				#	critical success / critical failure
+				#	show matches / count matches (a match is a group of 2 or more dice with the same result)
+				#	sort
+		captures:
+			1: name: 'constant.numeric.dice-count.roll20-macro'
+			2: name: 'punctuation.definition.dice-sides.delimiter.roll20-macro'
+			3: name: 'entity.name.dice-sides.roll20-macro'
+			4: name: 'constant.numeric.dice-sides.roll20-macro'
+			5: name: 'entity.name.roll-modifiers.roll20-macro'
 	}
 	groupRoll: {
-		name: 'constant.other.group-roll.roll20-macro'
+		name: 'meta.group-roll.roll20-macro'
 		patterns: [
 			{
-				begin: '\\{'
-				end: '\\}(?:[kd][hl]?\\d+|[<=>]\\d+(?:f[<=>]?\\d+)?|)*'
+				begin: '(\\{)'
+				end: '(?x)
+						(\\})
+						((?:
+							[kd][hl]?\\d+
+							|[<=>]\\d+(?:f[<=>]?\\d+)?
+						)*)'
+						#modifiers include:
+						#	keep / drop
+						#	count successes / count successes - failures
+				beginCaptures:
+					1: name: 'punctuation.definition.group-roll.delimiter.roll20-macro'
+				endCaptures:
+					1: name: 'punctuation.definition.group-roll.delimiter.roll20-macro'
+					2: name: 'entity.name.roll-modifiers.roll20-macro'
 				patterns: [
 					{ include: '#inlineRoll' }
 					{ include: '#inlineMath' }
@@ -220,15 +284,25 @@ repository:
 	}
 	templateSelector: {
 		name: 'meta.template-selector.roll20-macro'
-		match: '&\\{template:([^}]+)\\}'
+		match: '&\\{template:(?>([^}]+))\\}'
 		captures:
 			1: name: 'entity.name.template.roll20-macro'
 	}
 	property: {
 		name: 'meta.property.roll20-macro'
-		match: '\\{\\{((?:[^=@%|}]+|[@%](?!\\{)|[@%]\\{[^}]+\\})*)(?:=((?:[^@%}]|[@%](?!\\{)|[@%]\\{[^}]+\\}|\\}(?!\\}))*))?\\}\\}'
+		match: '(?x)
+				(\\{\\{)
+				(?>
+					((?:[^=@%|}]+|[@%](?!\\{)|[@%]\\{[^}]+\\})*)
+					(?:
+						(=)
+						((?:[^@%}]|[@%](?!\\{)|[@%]\\{[^}]+\\}|\\}(?!\\}))*)
+					)?
+				)
+				(\\}\\})'
 		captures:
-			1:
+			1: name: 'punctuation.definition.property.delimiter.roll20-macro'
+			2:
 				name: 'entity.name.property.roll20-macro'
 				patterns: [
 					{ include: '#attribute' }
@@ -237,7 +311,8 @@ repository:
 					{ include: '#query' }
 					{ include: '#inlineRoll' }
 				]
-			2:
+			3: name: 'keyword.operator.assignment.roll20-macro'
+			4:
 				name: 'string.unquoted.value.roll20-macro'
 				patterns: [
 					{ include: '#attribute' }
@@ -247,12 +322,23 @@ repository:
 					{ include: '#inlineRoll' }
 					{ include: '#button' }
 				]
+			5: name: 'punctuation.definition.property.delimiter.roll20-macro'
 	}
 	button: {
 		name: 'meta.button.roll20-macro'
-		match: '\\[(?!\\[)([^\\]]*)\\]\\(~(?:((?:[^@|}]+|@(?!\\{)|@\\{[^}]+\\})+)\\|)?((?:[^@|}]+|@(?!\\{)|@\\{[^}]+\\})+)\\)'
+		match: '(?x)
+				(\\[(?!\\[))
+				(?>([^\\]]*))
+				(\\]\\(~)
+				(?:
+					(?>((?:[^@|})]+|@(?!\\{)|@\\{[^}]+\\})+))
+					(\\|)
+				)?
+				(?>((?:[^@|})]+|@(?!\\{)|@\\{[^}]+\\})+))
+				(\\))'
 		captures:
-			1:
+			1: name: 'punctuation.definition.button.delimiter.roll20-macro'
+			2:
 				name: 'entity.name.button.roll20-macro'
 				patterns: [
 					{ include: '#attribute' }
@@ -260,10 +346,13 @@ repository:
 					{ include: '#htmlOrMacro' }
 					{ include: '#query' }
 				]
-			2:
+			3: name: 'punctuation.definition.button.delimiter.roll20-macro'
+			4:
 				name: 'entity.name.character.roll20-macro'
 				patterns: [{ include: '#attribute' }]	#notably: @{character_name}
-			3:
+			5: name: 'punctuation.definition.ability.pipe.roll20-macro'
+			6:
 				name: 'entity.name.ability.roll20-macro'
 				patterns: [{ include: '#attribute' }]
+			7: name: 'punctuation.definition.button.delimiter.roll20-macro'
 	}
